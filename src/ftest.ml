@@ -4,21 +4,7 @@ open Ffa
 open Graph
 open Money
 
-let create_gcaparev g = e_fold g (fun gr id1 id2 lbl -> new_arc gr id2 id1 (if lbl = max_int then max_int else 0)) g 
-
-
-let rec print_list = function 
-    [] -> ()
-  | e::l -> print_int e ; print_string " " ; print_list l
-
-let rec clean g gcaparev = 
-  let find_lbl idd idf = match find_arc gcaparev idd idf with 
-    | Some x -> x
-    | None -> raise (Graph_error "clean") in
-  e_fold g (fun gr id1 id2 lbl -> new_arc gr id1 id2 (find_lbl id1 id2)) (clone_nodes g)
-
 let () =
-
   (* Check the number of command-line arguments *)
   if Array.length Sys.argv <> 5 then
     begin
@@ -48,10 +34,9 @@ let () =
   (*let () = export outfile (gmap clean_graph string_of_int) in*)
 
   let (graph,l_name) = from_money_file infile in
-  let ford = ffa graph _source _sink in
-  let clean_graph = clean graph ford in
+  let ford = ffa graph 0 ((List.length l_name)+1) in
 
-  let () = export_money outfile (gmap clean_graph string_of_int) l_name in
+  let () = export_money outfile ford l_name in
 
   ()
 

@@ -1,10 +1,10 @@
 
 main:
-	ocamlbuild ftest.native
+	ocamlbuild ftest.byte
 
 format:
 	ocp-indent --inplace src/*
 
 clean:
 	rm -rf _build/
-	rm ftest.native
+	rm ftest.byte

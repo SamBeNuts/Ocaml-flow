@@ -1,14 +1,7 @@
 open Graph
 open Tools
 
-let rec print_list = function 
-    [] -> print_string "\n"
-  | e::l -> print_int e ; print_string " " ; print_list l
-
-
-
 let path g idd idf = 
-
   let rec add_path path_head path_tail = function
     | [] -> []
     | (id,lbl)::tl -> if lbl>0 
@@ -24,10 +17,9 @@ let path g idd idf =
               then List.rev (path_head::path_tail) 
               else add_node (List.append (add_path path_head path_tail (out_arcs g path_head)) acu_tail))
       | []::_ -> raise (Graph_error "add_node []::_")
-
   in add_node [[idd]]
 
-let create_gcaparev g = e_fold g (fun gr id1 id2 lbl -> new_arc gr id2 id1 (if lbl = 1000 then 1000 else 0)) g 
+let create_gcaparev g = e_fold g (fun gr id1 id2 lbl -> new_arc gr id2 id1 (if lbl = max_int then max_int else 0)) g 
 
 let min_list g l =
   let rec aux l acc = match l with
@@ -47,19 +39,25 @@ let rec ajout_flux g chemin ajout = match chemin with
     ajout_flux g3 (idf::rest) ajout
   | idf::rest -> g
 
+let rec clean g gcaparev = 
+  let find_lbl idd idf = match find_arc gcaparev idd idf with 
+    | Some x -> x
+    | None -> raise (Graph_error "clean") in
+  e_fold g (fun gr id1 id2 lbl -> new_arc gr id1 id2 (find_lbl id1 id2)) (clone_nodes g)
+
 let ffa gcapa ids idf =
   (*on initialise le graphe de flow à 0*)
   let gcaparev = create_gcaparev gcapa
 
   in let rec loop g ids idf =
-       let chemin = path g ids idf in
-       (*condition de fin, flow max*)
-       if (List.length chemin)=0
-       then g
-       else let min = min_list g chemin in
-         print_string "min: ";
-         print_int min;
-         print_string "\n";
-         print_list chemin;
-         loop (ajout_flux g chemin min) ids idf
+    let chemin = path g ids idf in
+    (*condition de fin, flow max*) 
+    if (List.length chemin)=0
+    then g
+    else let min = min_list g chemin in
+      (*print_string "min: ";
+      print_int min;
+      print_string "\n";
+      print_list chemin;*)
+      loop (ajout_flux g chemin min) ids idf
   in loop gcaparev ids idf;;
