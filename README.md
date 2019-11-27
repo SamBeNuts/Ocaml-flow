@@ -14,3 +14,9 @@ A makefile also provides basic automation :
  - `make` to compile. This creates an ftest.native executable
  - `make format` to indent the entire project
 
+Usage :
+ - create a file with your name and the amount paid, ex :
+John 10
+Kate 10
+Sam 20
+ - use the following command : sh money.sh <your file>

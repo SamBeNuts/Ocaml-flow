@@ -1,0 +1,7 @@
+digraph finite_state_machine {
+	rankdir=LR;
+	size="8,5"
+	node [shape = circle];
+	moi -> lui [ label = "1022" ];
+	toi -> moi [ label = "506" ];
+}
