@@ -9,14 +9,23 @@ Features :
  - code completion
  - automatic indentation on file save
 
-
 A makefile also provides basic automation :
- - `make` to compile. This creates an ftest.native executable
+ - `make` to compile. This creates an ftest.byte executable
  - `make format` to indent the entire project
 
+#Ford Fulkerson Algorithm :
+Usage : 
+ - create a file with your nodes and edges formatting like this : 
+n <coord-x> <coord-y>
+e <id-source> <id-destination> <label>
+ - use the following command to compile source files : make
+ - use the following command to see the graph result : sh ffa.sh <your file>
+
+#Money flow project :
 Usage :
- - create a file with your name and the amount paid, ex :
-John 10
-Kate 10
-Sam 20
- - use the following command : sh money.sh <your file>
+ - create a file with a name and an amount paid (one per line), ex :
+Pierre 20
+Alice 10
+Quentin 10
+ - use the following command to compile source files : make money
+ - use the following command to see the graph result : sh money.sh <your file>
