@@ -12,9 +12,9 @@ let () =
       exit 0
     end ;
 
-  (* Arguments are : infile(1) source-id(2) sink-id(3) outfile(4) *)
+  (* Arguments are : infile(1) outfile(2) *)
   let infile = Sys.argv.(1)
-  and outfile = Sys.argv.(4)
+  and outfile = Sys.argv.(2)
   in
 
   (* Open file *)
@@ -27,4 +27,3 @@ let () =
   let () = export_money outfile ford l_name in
 
   ()
-  

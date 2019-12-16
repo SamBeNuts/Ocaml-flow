@@ -23,10 +23,10 @@ let from_money_file path =
 
     with End_of_file -> (l_name, l_amount) in 
 
-  close_in infile ;
-
   (* on récupère les listes de noms et de montant *)
   let (l_name,l_amount) = loop_file [] [] in  
+
+  close_in infile ;
 
   (* on récupère les paramètres importants pour la suite :
      - nombre de personnes
@@ -41,7 +41,7 @@ let from_money_file path =
     | amount::rest -> let graph2 = new_node graph n in
       let diff_amount = (amount-average_amount) in
       let graph3 = if diff_amount > 0
-        (*vers le sink s'il doit être remboursé *)
+      (*vers le sink s'il doit être remboursé *)
         then new_arc graph2 n (nb_person + 1) diff_amount 
         (*vers la source s'il doit de l'argent *)
         else (if diff_amount < 0
@@ -82,10 +82,10 @@ let export_money path graph l_name =
 
   (* Write all arcs *)
   e_iter graph (fun id1 id2 lbl -> 
-  (* on n'affiche pas les arcs de départ et de sink qui servent uniquement à l'algo et on affiche seulement un seul des 2 arc celui avec le label positif  *)
-  if id1=0 || id1=(nb_person+1) || id2=0 || id2=(nb_person+1) || (max_int-lbl)<=0
-  then () 
-  else fprintf ff "\t%s -> %s [ label = \"%d\" ];\n" (string_of_id id1) (string_of_id id2) (max_int-lbl)) ;
+      (* on n'affiche pas les arcs de départ et de sink qui servent uniquement à l'algo et on affiche seulement un seul des 2 arc celui avec le label positif  *)
+      if id1=0 || id1=(nb_person+1) || id2=0 || id2=(nb_person+1) || (max_int-lbl)<=0
+      then () 
+      else fprintf ff "\t%s -> %s [ label = \"%d\" ];\n" (string_of_id id1) (string_of_id id2) (max_int-lbl)) ;
   fprintf ff "}\n";
 
   close_out ff;

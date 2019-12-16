@@ -1,8 +1,6 @@
 
 main:
 	ocamlbuild ftest.byte
-
-money:
 	ocamlbuild mtest.byte
 
 format:
